@@ -1,0 +1,28 @@
+import("CartesianPositionController")
+import("lwr_fri")
+
+loadComponent("lwr","lwr_fri::FRIComponent")
+loadComponent("cpc", "CartesianPositionController")
+
+var ConnPolicy cp
+cp.type = DATA
+cp.lock_policy = LOCK_FREE
+
+
+setActivity("lwr",0, 99, ORO_SCHED_OTHER)
+setActivity("cpc", 0.001, 99, ORO_SCHED_OTHER)
+setActivity("ati", 0, 99, ORO_SCHED_OTHER)
+
+lwr.udp_port=49938
+lwr.configure
+
+cpc.T_out = 1.0
+cpc.configure
+
+lwr.start
+#cpc.start
+
+connect("cpc.CartesianPosition","lwr.CartesianPosition",cp)
+connect("cpc.CartesianImpedanceCommand","lwr.CartesianImpedanceCommand",cp)
+connect("cpc.CartesianWrenchCommand","lwr.CartesianWrenchCommand",cp)
+connect("cpc.CartesianPositionCommand","lwr.CartesianPositionCommand",cp)

@@ -1,0 +1,8 @@
+CMakeFiles
+lib
+Makefile
+cmake_*
+*~
+CMakeCache.txt
+~.pc
+.tb_history
